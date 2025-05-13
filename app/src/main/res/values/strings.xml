@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BookWise</string>
+    <string name="navigation_drawer_open">Menüyü Aç</string>
+    <string name="navigation_drawer_close">Menüyü Kapat</string>
+</resources>
