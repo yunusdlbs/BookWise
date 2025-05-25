@@ -13,11 +13,28 @@
         android:roundIcon="@drawable/logolibrary"
         android:supportsRtl="true"
         android:theme="@style/Theme.BookWise"
-        tools:targetApi="31"
-        tools:ignore="MissingClass">
+        tools:ignore="MissingClass"
+        tools:targetApi="31">
+        <activity
+            android:name=".editbook"
+            android:exported="false" />
+        <activity
+            android:name=".deletebook"
+            android:exported="false" />
+        <activity
+            android:name=".addbook"
+            android:exported="false" />
+        <activity
+            android:name=".edituser"
+            android:exported="false" />
+        <activity
+            android:name=".admin"
+            android:exported="false" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB-*******************************" />
+            android:value="AIzaSyB-*************************" />
+
         <activity
             android:name=".aboutus"
             android:exported="false" />

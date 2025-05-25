@@ -13,106 +13,80 @@
     <!-- Login Butonu -->
 
     <!-- Register Butonu -->
-    <TextView
-        android:id="@+id/kullanıcıadı"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="93dp"
-        android:text="Email "
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/parola"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="199dp"
-        android:text="Password"
-        android:textColor="#FBFBFB"
-        android:textSize="16sp"
-        android:textStyle="bold" />
 
     <Button
         android:id="@+id/login"
-        android:layout_width="232dp"
-        android:layout_height="wrap_content"
+        android:layout_width="348dp"
+        android:layout_height="63dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="309dp"
-        android:layout_marginEnd="75dp"
+        android:layout_marginEnd="30dp"
         android:backgroundTint="#FF9800"
         android:elevation="6dp"
-        android:text="LOGIN"
-        android:textColor="#FBFBFB"
+        android:text="GİRİŞ"
+        android:textColor="@android:color/white"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/aboutus"
-        android:layout_width="229dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/register"
+        android:layout_width="348dp"
+        android:layout_height="63dp"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="75dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="450dp"
+        android:layout_marginEnd="30dp"
         android:backgroundTint="#FF9800"
         android:elevation="6dp"
-        android:text="About Us"
-        android:textColor="#FBFBFB"
+        android:text="HAKKIMIZDA"
+        android:textColor="@android:color/white"
         android:textStyle="bold" />
 
     <EditText
         android:id="@+id/editTextTextPassword"
-        android:layout_width="232dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="241dp"
-        android:layout_marginEnd="75dp"
-        android:background="@drawable/edittext_background"
-        android:elevation="4dp"
-        android:ems="10"
         android:inputType="textPassword"
-        android:paddingStart="16dp"
-        android:text=""
-        android:textColor="#040000"
-        android:textStyle="bold" />
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="218dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginStart="30dp"
+        android:background="@drawable/edittext_background"
+        android:hint="Password"
+        android:padding="12dp"  />
 
     <EditText
         android:id="@+id/editTextText"
-        android:layout_width="234dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="137dp"
-        android:layout_marginEnd="75dp"
+        android:layout_marginTop="148dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginStart="30dp"
         android:background="@drawable/edittext_background"
-        android:elevation="4dp"
-        android:ems="10"
+        android:hint="E-Mail"
         android:inputType="text"
-        android:paddingStart="16dp"
-        android:text=""
-        android:textColor="#000000"
-        android:textStyle="bold" />
+        android:padding="12dp" />
 
     <Button
         android:id="@+id/register"
-        android:layout_width="232dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/login"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="75dp"
         android:backgroundTint="#0095FF"
+        android:text="KAYDOL"
+        android:layout_width="348dp"
+        android:layout_height="63dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="380dp"
+        android:layout_marginEnd="30dp"
         android:elevation="6dp"
-        android:text="REGISTER HERE"
-        android:textStyle="bold" />
+        android:textColor="@android:color/white"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tvCountdown"

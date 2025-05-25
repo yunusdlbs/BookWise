@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -68,6 +69,9 @@ public class register extends AppCompatActivity {
                 return;
             }
 
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -80,14 +84,16 @@ public class register extends AppCompatActivity {
                             user.put("email", email);
                             user.put("birthDate", birthDate);
                             user.put("address", address);
+                            user.put("isAdmin", false); // 🔒 Varsayılan admin değil
 
-                            FirebaseDatabase.getInstance().getReference("Users")
-                                    .child(uid)
-                                    .setValue(user)
+                            // 🔥 Firestore'a kayıt
+                            firestore.collection("Users")
+                                    .document(uid)
+                                    .set(user)
                                     .addOnSuccessListener(unused -> {
                                         Toast.makeText(register.this, "Kayıt Başarılı", Toast.LENGTH_SHORT).show();
                                         new Handler().postDelayed(() -> {
-                                            finish(); // geri dön
+                                            finish(); // login ekranına dön
                                         }, 1500);
                                     })
                                     .addOnFailureListener(e ->

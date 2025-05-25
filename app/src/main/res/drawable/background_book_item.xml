@@ -1,0 +1,16 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Yarı saydam beyaz -->
+    <solid android:color="#CCFFFFFF" /> <!-- %70 opak beyaz -->
+
+    <!-- Oval köşeler -->
+    <corners android:radius="24dp" />
+
+    <!-- Gölge benzeri boşluk (isteğe bağlı) -->
+    <padding
+        android:left="8dp"
+        android:top="8dp"
+        android:right="8dp"
+        android:bottom="8dp" />
+</shape>
