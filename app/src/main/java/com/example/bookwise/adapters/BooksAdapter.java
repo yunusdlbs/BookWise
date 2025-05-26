@@ -1,6 +1,7 @@
 package com.example.bookwise.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.bookwise.R;
 import com.example.bookwise.models.Book;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHolder> {
 
@@ -57,18 +63,54 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         if (book.getStock() > 0) {
             holder.btnBorrow.setEnabled(true);
             holder.btnBorrow.setAlpha(1f);
+            holder.warning.setVisibility(View.GONE);
         } else {
             holder.btnBorrow.setEnabled(false);
             holder.btnBorrow.setAlpha(0.5f);
+            holder.warning.setVisibility(View.VISIBLE);
         }
 
-        holder.btnBorrow.setOnClickListener(v ->
-                Toast.makeText(context, "Ödünç alındı: " + book.getTitle(), Toast.LENGTH_SHORT).show()
-        );
+        holder.btnBorrow.setOnClickListener(v -> {
+            Toast.makeText(context, "Ödünç alındı: " + book.getTitle(), Toast.LENGTH_SHORT).show();
 
-        holder.btnFavorite.setOnClickListener(v ->
-                Toast.makeText(context, book.getTitle() + " favorilere eklendi!", Toast.LENGTH_SHORT).show()
-        );
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                String uid = user.getUid();
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                Map<String, Object> data = new HashMap<>();
+                data.put("title", book.getTitle());
+                data.put("author", book.getAuthor());
+                data.put("imageUrl", book.getImageUrl());
+
+                db.collection("Users").document(uid)
+                        .collection("Borrowed")
+                        .document(book.getTitle() + "_" + book.getAuthor())
+                        .set(data)
+                        .addOnSuccessListener(aVoid -> Log.d("FIREBASE", "Favori eklendi"))
+                        .addOnFailureListener(e -> Log.e("FIREBASE", "HATA: " + e.getMessage()));
+            }
+        });
+
+        holder.btnFavorite.setOnClickListener(v -> {
+            Toast.makeText(context, book.getTitle() + " favorilere eklendi!", Toast.LENGTH_SHORT).show();
+
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                String uid = user.getUid();
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                Map<String, Object> data = new HashMap<>();
+                data.put("title", book.getTitle());
+                data.put("author", book.getAuthor());
+                data.put("imageUrl", book.getImageUrl());
+
+                db.collection("Users").document(uid)
+                        .collection("Favorites")
+                        .document(book.getTitle() + "_" + book.getAuthor())
+                        .set(data);
+            }
+        });
 
         // Kart tıklanınca detayları göster/gizle
         boolean isExpanded = expandedItems.get(position, false);
@@ -96,9 +138,10 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         View detailLayout;
         Button btnBorrow, btnFavorite;
 
+        TextView warning;
         public BookViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            warning = itemView.findViewById(R.id.tvOutOfStockWarning);
             title = itemView.findViewById(R.id.bookTitle);
             author = itemView.findViewById(R.id.bookAuthor);
             description = itemView.findViewById(R.id.bookDescription);
@@ -110,6 +153,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
             detailLayout = itemView.findViewById(R.id.detailLayout);
             btnBorrow = itemView.findViewById(R.id.btnBorrow);
             btnFavorite = itemView.findViewById(R.id.btnFavorite);
+
         }
     }
 }

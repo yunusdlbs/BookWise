@@ -183,6 +183,9 @@ public class home extends AppCompatActivity {
                     Toast.makeText(home.this, "Profil açılıyor...", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_settings) {
                     Toast.makeText(home.this, "Ayarlar geliyor...", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.nav_books) {
+                    Toast.makeText(home.this, "Kitaplarım...", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(home.this, mybooks.class));
                 } else if (id == R.id.nav_logout) {
                     FirebaseAuth.getInstance().signOut();
                     startActivity(new Intent(home.this, login.class));

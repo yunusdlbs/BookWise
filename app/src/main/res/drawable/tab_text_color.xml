@@ -1,0 +1,4 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="#737373" android:state_selected="false"/>
+    <item android:color="#0095FF" android:state_selected="true"/> <!-- Seçili sekme yazısı -->
+</selector>

@@ -6,19 +6,19 @@
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_person"
-            android:title="My Profile" />
+            android:title="Profilim" />
         <item
             android:id="@+id/nav_books"
             android:icon="@drawable/ic_books"
-            android:title="My Books" />
+            android:title="Kitaplarım" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"
-            android:title="Settings" />
+            android:title="Ayarlar" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_logout"
-            android:title="Log Out" />
+            android:title="Çıkış" />
 
     </group>
 

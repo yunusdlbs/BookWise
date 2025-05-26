@@ -1,0 +1,44 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/library_home"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="48dp"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_margin="16dp"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
+            android:background="@drawable/tab_background_rounded"
+            app:tabIndicator="@drawable/tab_indicator"
+            app:tabTextColor="@drawable/tab_text_color"
+            app:tabSelectedTextColor="@color/tab_selected_text" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="665dp"
+        android:layout_marginTop="114dp"/>
+
+    <Button
+        android:id="@+id/btnhome"
+        android:layout_width="385dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="740dp"
+        android:layout_marginStart="15dp"
+        android:backgroundTint="#FF9800"
+        android:text="ANA SAYFA"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
