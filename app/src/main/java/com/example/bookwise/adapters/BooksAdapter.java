@@ -19,6 +19,7 @@ import com.example.bookwise.R;
 import com.example.bookwise.models.Book;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -72,25 +73,51 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         }
 
         holder.btnBorrow.setOnClickListener(v -> {
-            Toast.makeText(context, "Ödünç alındı: " + book.getTitle(), Toast.LENGTH_SHORT).show();
-
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user != null) {
                 String uid = user.getUid();
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                Map<String, Object> data = new HashMap<>();
-                data.put("title", book.getTitle());
-                data.put("author", book.getAuthor());
-                data.put("imageUrl", book.getImageUrl());
-                data.put("borrowedAt", FieldValue.serverTimestamp());
+                String docId = book.getTitle() + "_" + book.getAuthor();
 
+                // ✅ Önce kontrol et: zaten ödünç alınmış mı?
                 db.collection("Users").document(uid)
                         .collection("Borrowed")
-                        .document(book.getTitle() + "_" + book.getAuthor())
-                        .set(data)
-                        .addOnSuccessListener(aVoid -> Log.d("FIREBASE", "Favori eklendi"))
-                        .addOnFailureListener(e -> Log.e("FIREBASE", "HATA: " + e.getMessage()));
+                        .document(docId)
+                        .get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                Toast.makeText(context, "Bu kitabı zaten ödünç aldınız!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // ✔️ Ödünç al ve Firestore'dan stock'u azalt
+                                Map<String, Object> data = new HashMap<>();
+                                data.put("title", book.getTitle());
+                                data.put("author", book.getAuthor());
+                                data.put("imageUrl", book.getImageUrl());
+                                data.put("borrowedAt", FieldValue.serverTimestamp());
+
+                                // 1️⃣ KULLANICININ BORROWED KOLEKSİYONUNA EKLE
+                                db.collection("Users").document(uid)
+                                        .collection("Borrowed")
+                                        .document(docId)
+                                        .set(data)
+                                        .addOnSuccessListener(aVoid -> {
+                                            // 2️⃣ BOOKS koleksiyonundaki stock alanını güncelle
+                                            db.collection("books")
+                                                    .whereEqualTo("title", book.getTitle())
+                                                    .whereEqualTo("author", book.getAuthor())
+                                                    .get()
+                                                    .addOnSuccessListener(query -> {
+                                                        for (DocumentSnapshot snap : query.getDocuments()) {
+                                                            snap.getReference()
+                                                                    .update("stock", FieldValue.increment(-1));
+                                                        }
+                                                    });
+
+                                            Toast.makeText(context, "Kitap ödünç alındı!", Toast.LENGTH_SHORT).show();
+                                        });
+                            }
+                        });
             }
         });
 
@@ -162,4 +189,5 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
         }
     }
+
 }

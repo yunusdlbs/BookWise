@@ -226,21 +226,23 @@ public class home extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadBooks();
+        listenBooksRealtime();
     }
 
-    private void loadBooks() {
-        db.collection("books").get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
+    private void listenBooksRealtime() {
+        db.collection("books")
+                .addSnapshotListener((querySnapshot, error) -> {
+                    if (error != null) {
+                        Toast.makeText(this, "Kitaplar dinlenemedi!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     bookList.clear();
-                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                    for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
                         Book book = doc.toObject(Book.class);
                         bookList.add(book);
                     }
-                    adapter.notifyDataSetChanged();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Kitaplar yüklenemedi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    adapter.notifyDataSetChanged(); // 🔁 UI'ı yenile
                 });
     }
 
