@@ -19,6 +19,7 @@ import com.example.bookwise.R;
 import com.example.bookwise.models.Book;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -82,6 +83,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
                 data.put("title", book.getTitle());
                 data.put("author", book.getAuthor());
                 data.put("imageUrl", book.getImageUrl());
+                data.put("borrowedAt", FieldValue.serverTimestamp());
 
                 db.collection("Users").document(uid)
                         .collection("Borrowed")
@@ -104,6 +106,10 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
                 data.put("title", book.getTitle());
                 data.put("author", book.getAuthor());
                 data.put("imageUrl", book.getImageUrl());
+                data.put("description", book.getDescription()); // 📌 eksik geliyor!
+                data.put("category", book.getCategory());
+                data.put("pageCount", book.getPageCount());
+                data.put("stock", book.getStock());
 
                 db.collection("Users").document(uid)
                         .collection("Favorites")

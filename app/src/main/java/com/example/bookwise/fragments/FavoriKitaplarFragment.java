@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookwise.R;
-import com.example.bookwise.adapters.BooksAdapter;
+import com.example.bookwise.adapters.FavoriteBooksAdapter;
 import com.example.bookwise.models.Book;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -24,14 +24,15 @@ import java.util.List;
 public class FavoriKitaplarFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private BooksAdapter adapter;
-    private List<Book> bookList = new ArrayList<>();
+    private FavoriteBooksAdapter adapter;
+    private List<Book> favoriteList = new ArrayList<>();
+    private FirebaseFirestore db;
+    private String uid;
 
     public FavoriKitaplarFragment() {}
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_favori_kitaplar, container, false);
     }
 
@@ -40,27 +41,34 @@ public class FavoriKitaplarFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerFavorites);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adapter = new BooksAdapter(getContext(), bookList);
+        db = FirebaseFirestore.getInstance();
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        adapter = new FavoriteBooksAdapter(getContext(), favoriteList);
         recyclerView.setAdapter(adapter);
 
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        loadFavorites();
+    }
 
-        FirebaseFirestore.getInstance()
-                .collection("Users")
+    private void loadFavorites() {
+        db.collection("Users")
                 .document(uid)
                 .collection("Favorites")
                 .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    bookList.clear();
-                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                .addOnSuccessListener(querySnapshot -> {
+                    favoriteList.clear();
+                    for (DocumentSnapshot doc : querySnapshot) {
                         Book book = doc.toObject(Book.class);
-                        bookList.add(book);
+                        favoriteList.add(book);
                     }
                     adapter.notifyDataSetChanged();
                 })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "Favoriler yüklenemedi", Toast.LENGTH_SHORT).show();
-                });
+                .addOnFailureListener(e ->
+                        Toast.makeText(getContext(), "Favori kitaplar yüklenemedi", Toast.LENGTH_SHORT).show());
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadFavorites(); // fragment görünür olduğunda listeyi yenile
     }
 }
-

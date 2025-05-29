@@ -1,5 +1,7 @@
 package com.example.bookwise.models;
 
+import java.util.Date;
+
 public class Book {
     private String title;
     private String author;
@@ -11,6 +13,16 @@ public class Book {
 
     public Book() {
         // Firebase için boş constructor gereklidir
+    }
+
+    private Date borrowedAt;
+
+    public Date getBorrowedAt() {
+        return borrowedAt;
+    }
+
+    public void setBorrowedAt(Date borrowedAt) {
+        this.borrowedAt = borrowedAt;
     }
 
     public Book(String title, String author, String description, String imageUrl, String category, String pageCount, int stock) {
