@@ -30,7 +30,7 @@
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/forgetpassword"
+        android:id="@+id/btnforgetpassword"
         android:layout_width="348dp"
         android:layout_height="63dp"
         android:layout_alignParentTop="true"

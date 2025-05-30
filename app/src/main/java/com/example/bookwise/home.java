@@ -209,17 +209,17 @@ public class home extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        db.collection("books").get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                        Book book = doc.toObject(Book.class);
-                        bookList.add(book);
-                    }
-                    adapter.notifyDataSetChanged();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Kitaplar yüklenemedi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+//        db.collection("books").get()
+//                .addOnSuccessListener(queryDocumentSnapshots -> {
+//                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
+//                        Book book = doc.toObject(Book.class);
+//                        bookList.add(book);
+//                    }
+//                    adapter.notifyDataSetChanged();
+//                })
+//                .addOnFailureListener(e -> {
+//                    Toast.makeText(this, "Kitaplar yüklenemedi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                });
 
     }
 
