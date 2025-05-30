@@ -122,28 +122,41 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         });
 
         holder.btnFavorite.setOnClickListener(v -> {
-            Toast.makeText(context, book.getTitle() + " favorilere eklendi!", Toast.LENGTH_SHORT).show();
-
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user != null) {
                 String uid = user.getUid();
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-                Map<String, Object> data = new HashMap<>();
-                data.put("title", book.getTitle());
-                data.put("author", book.getAuthor());
-                data.put("imageUrl", book.getImageUrl());
-                data.put("description", book.getDescription()); // 📌 eksik geliyor!
-                data.put("category", book.getCategory());
-                data.put("pageCount", book.getPageCount());
-                data.put("stock", book.getStock());
+                String docId = book.getTitle() + "_" + book.getAuthor(); // 🔐 Unique ID
 
                 db.collection("Users").document(uid)
                         .collection("Favorites")
-                        .document(book.getTitle() + "_" + book.getAuthor())
-                        .set(data);
+                        .document(docId)
+                        .get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                Toast.makeText(context, "Bu kitap zaten favorilerde!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Map<String, Object> data = new HashMap<>();
+                                data.put("title", book.getTitle());
+                                data.put("author", book.getAuthor());
+                                data.put("imageUrl", book.getImageUrl());
+                                data.put("description", book.getDescription());
+                                data.put("category", book.getCategory());
+                                data.put("pageCount", book.getPageCount());
+                                data.put("stock", book.getStock());
+
+                                db.collection("Users").document(uid)
+                                        .collection("Favorites")
+                                        .document(docId)
+                                        .set(data)
+                                        .addOnSuccessListener(aVoid ->
+                                                Toast.makeText(context, book.getTitle() + " favorilere eklendi!", Toast.LENGTH_SHORT).show()
+                                        );
+                            }
+                        });
             }
         });
+
 
         // Kart tıklanınca detayları göster/gizle
         boolean isExpanded = expandedItems.get(position, false);

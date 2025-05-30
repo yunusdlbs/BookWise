@@ -44,38 +44,43 @@ public class OduncKitaplarFragment extends Fragment {
         adapter = new BorrowedBooksAdapter(getContext(), bookList);
         recyclerView.setAdapter(adapter);
 
-        loadBorrowedBooks(); // burada çağır
+        //loadBorrowedBooks(); // burada çağır
     }
-    private void loadBorrowedBooks() {
+    private void listenBorrowedBooksRealtime() {
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         FirebaseFirestore.getInstance()
                 .collection("Users")
                 .document(uid)
                 .collection("Borrowed")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    bookList.clear();
-                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                        Book book = doc.toObject(Book.class);
+                .addSnapshotListener((snapshots, e) -> {
+                    if (e != null) {
+                        Toast.makeText(getContext(), "Ödünç kitaplar alınamadı!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                        // 📅 İade tarihi için timestamp kontrolü
-                        com.google.firebase.Timestamp ts = doc.getTimestamp("borrowedAt");
-                        if (ts != null) {
-                            book.setBorrowedAt(ts.toDate());
+                    if (snapshots != null) {
+                        bookList.clear();
+                        for (DocumentSnapshot doc : snapshots.getDocuments()) {
+                            Book book = doc.toObject(Book.class);
+
+                            com.google.firebase.Timestamp ts = doc.getTimestamp("borrowedAt");
+                            if (ts != null) {
+                                book.setBorrowedAt(ts.toDate());
+                            }
+
+                            bookList.add(book);
                         }
 
-                        bookList.add(book);
+                        adapter.notifyDataSetChanged();
                     }
-                    adapter.notifyDataSetChanged();
-                })
-                .addOnFailureListener(e ->
-                        Toast.makeText(getContext(), "Ödünç kitaplar yüklenemedi", Toast.LENGTH_SHORT).show());
+                });
     }
+
 
     @Override
     public void onResume() {
         super.onResume();
-        loadBorrowedBooks();
+        listenBorrowedBooksRealtime();
     }
 }

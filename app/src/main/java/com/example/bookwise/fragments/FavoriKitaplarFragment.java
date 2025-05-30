@@ -47,28 +47,35 @@ public class FavoriKitaplarFragment extends Fragment {
         adapter = new FavoriteBooksAdapter(getContext(), favoriteList);
         recyclerView.setAdapter(adapter);
 
-        loadFavorites();
+        listenFavoritesRealtime();
     }
 
-    private void loadFavorites() {
+    private void listenFavoritesRealtime() {
         db.collection("Users")
                 .document(uid)
                 .collection("Favorites")
-                .get()
-                .addOnSuccessListener(querySnapshot -> {
-                    favoriteList.clear();
-                    for (DocumentSnapshot doc : querySnapshot) {
-                        Book book = doc.toObject(Book.class);
-                        favoriteList.add(book);
+                .addSnapshotListener((snapshots, e) -> {
+                    if (e != null) {
+                        Toast.makeText(getContext(), "Favoriler yüklenemedi!", Toast.LENGTH_SHORT).show();
+                        return;
                     }
-                    adapter.notifyDataSetChanged();
-                })
-                .addOnFailureListener(e ->
-                        Toast.makeText(getContext(), "Favori kitaplar yüklenemedi", Toast.LENGTH_SHORT).show());
+
+                    if (snapshots != null) {
+                        List<Book> updatedList = new ArrayList<>();
+                        for (DocumentSnapshot doc : snapshots.getDocuments()) {
+                            Book book = doc.toObject(Book.class);
+                            updatedList.add(book);
+                        }
+
+                        favoriteList.clear();
+                        favoriteList.addAll(updatedList);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
     }
     @Override
     public void onResume() {
         super.onResume();
-        loadFavorites(); // fragment görünür olduğunda listeyi yenile
+        listenFavoritesRealtime(); // fragment görünür olduğunda listeyi yenile
     }
 }

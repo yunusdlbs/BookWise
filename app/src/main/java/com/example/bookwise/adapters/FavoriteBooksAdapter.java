@@ -17,6 +17,7 @@ import com.example.bookwise.R;
 import com.example.bookwise.models.Book;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -58,23 +59,54 @@ public class FavoriteBooksAdapter extends RecyclerView.Adapter<FavoriteBooksAdap
         Glide.with(context).load(book.getImageUrl()).into(holder.image);
 
         holder.btnBorrow.setOnClickListener(v -> {
-            Map<String, Object> data = new HashMap<>();
-            data.put("title", book.getTitle());
-            data.put("author", book.getAuthor());
-            data.put("imageUrl", book.getImageUrl());
-            data.put("borrowedAt", FieldValue.serverTimestamp());
-            data.put("description", book.getDescription());
-            data.put("category", book.getCategory());
-            data.put("pageCount", book.getPageCount());
-            data.put("stock", book.getStock());
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user == null) return;
 
+            String uid = user.getUid();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            String bookId = book.getTitle() + "_" + book.getAuthor();
+
+            // 🔎 Önce kontrol: zaten ödünç alınmış mı?
             db.collection("Users").document(uid)
                     .collection("Borrowed")
-                    .document(book.getTitle() + "_" + book.getAuthor())
-                    .set(data)
-                    .addOnSuccessListener(aVoid ->
-                            Toast.makeText(context, "Ödünç alındı", Toast.LENGTH_SHORT).show());
+                    .document(bookId)
+                    .get()
+                    .addOnSuccessListener(docSnapshot -> {
+                        if (docSnapshot.exists()) {
+                            Toast.makeText(context, "Bu kitabı zaten ödünç aldınız!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // 🟢 Ödünç alma işlemi başlat
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("title", book.getTitle());
+                            data.put("author", book.getAuthor());
+                            data.put("imageUrl", book.getImageUrl());
+                            data.put("borrowedAt", FieldValue.serverTimestamp());
+
+                            db.collection("Users").document(uid)
+                                    .collection("Borrowed")
+                                    .document(bookId)
+                                    .set(data)
+                                    .addOnSuccessListener(aVoid -> {
+                                        Toast.makeText(context, "Ödünç alındı", Toast.LENGTH_SHORT).show();
+
+                                        // 🔽 Firestore’da stok düşür
+                                        db.collection("books")
+                                                .whereEqualTo("title", book.getTitle())
+                                                .whereEqualTo("author", book.getAuthor())
+                                                .get()
+                                                .addOnSuccessListener(query -> {
+                                                    if (!query.isEmpty()) {
+                                                        for (DocumentSnapshot doc : query.getDocuments()) {
+                                                            doc.getReference().update("stock", FieldValue.increment(-1));
+                                                        }
+                                                    }
+                                                });
+                                    });
+                        }
+                    });
         });
+
+
 
         holder.btnRemove.setOnClickListener(v -> {
             db.collection("Users").document(uid)

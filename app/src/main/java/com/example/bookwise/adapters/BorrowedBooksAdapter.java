@@ -16,6 +16,9 @@ import com.bumptech.glide.Glide;
 import com.example.bookwise.R;
 import com.example.bookwise.models.Book;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
@@ -62,16 +65,42 @@ public class BorrowedBooksAdapter extends RecyclerView.Adapter<BorrowedBooksAdap
         }
 
         holder.btnReturn.setOnClickListener(v -> {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user == null) return;
+
+            String uid = user.getUid();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            String bookId = book.getTitle() + "_" + book.getAuthor();
+
+            // 1️⃣ Kullanıcının Borrowed listesinden sil
             db.collection("Users").document(uid)
                     .collection("Borrowed")
-                    .document(book.getTitle() + "_" + book.getAuthor())
+                    .document(bookId)
                     .delete()
                     .addOnSuccessListener(unused -> {
                         Toast.makeText(context, "Kitap iade edildi", Toast.LENGTH_SHORT).show();
-                        borrowedList.remove(position);
-                        notifyItemRemoved(position);
-                    });
+
+                        // 2️⃣ books koleksiyonundaki stok değerini artır
+                        db.collection("books")
+                                .whereEqualTo("title", book.getTitle())
+                                .whereEqualTo("author", book.getAuthor())
+                                .get()
+                                .addOnSuccessListener(query -> {
+                                    if (!query.isEmpty()) {
+                                        for (DocumentSnapshot doc : query.getDocuments()) {
+                                            doc.getReference().update("stock", FieldValue.increment(+1));
+                                        }
+                                    }
+                                });
+
+                        // 3️⃣ Adapter listesinden kaldır
+                        borrowedList.remove(holder.getAdapterPosition());
+                        notifyItemRemoved(holder.getAdapterPosition());
+                    })
+                    .addOnFailureListener(e ->
+                            Toast.makeText(context, "İade işlemi başarısız", Toast.LENGTH_SHORT).show());
         });
+
     }
 
     @Override

@@ -56,12 +56,12 @@ public class login extends AppCompatActivity {
                             new CountDownTimer(5000, 1000) {
                                 public void onTick(long millisUntilFinished) {
                                     long saniye = millisUntilFinished / 1000;
-                                    tvCountdown.setText("Logging In: " + saniye + " sn");
+                                    tvCountdown.setText("Lütfen Bekleyiniz: " + saniye + " sn");
                                     Log Log = null;
                                     Log.d("DEBUG", "Firebase giriş başarılı oldu!");
                                 }
                                 public void onFinish() {
-                                    tvCountdown.setText("Logged In");
+                                    //tvCountdown.setText("Logged In");
                                     startActivity(new Intent(login.this, home.class));
                                     finish();
                                 }
