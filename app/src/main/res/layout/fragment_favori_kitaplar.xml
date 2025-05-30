@@ -6,4 +6,16 @@
         android:id="@+id/recyclerFavorites"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/tvEmptyMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hiç favori kitabınız yok."
+        android:gravity="center"
+        android:textColor="#888"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:layout_marginTop="32dp"/>
+
 </FrameLayout>

@@ -1,6 +1,7 @@
 package com.example.bookwise.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.bookwise.R;
 import com.example.bookwise.models.Book;
+import com.example.bookwise.mybooks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -49,6 +51,15 @@ public class FavoriteBooksAdapter extends RecyclerView.Adapter<FavoriteBooksAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Book book = favoriteList.get(position);
 
+        // 🔁 Görünüm sıfırlama – view recycling hatasını engeller
+        holder.btnBorrow.setVisibility(View.VISIBLE);
+        holder.btnRemove.setVisibility(View.VISIBLE);
+        holder.description.setVisibility(View.VISIBLE);
+        holder.category.setVisibility(View.VISIBLE);
+        holder.pageCount.setVisibility(View.VISIBLE);
+        holder.stock.setVisibility(View.VISIBLE);
+
+        // 🔁 Veriyi doldur
         holder.title.setText(book.getTitle());
         holder.author.setText(book.getAuthor());
         holder.description.setText(book.getDescription());
@@ -115,10 +126,14 @@ public class FavoriteBooksAdapter extends RecyclerView.Adapter<FavoriteBooksAdap
                     .delete()
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(context, "Favorilerden çıkarıldı", Toast.LENGTH_SHORT).show();
-                        favoriteList.remove(position);
-                        notifyItemRemoved(position);
+
+                        // ✅ Aktiviteyi yenile (fragment tetiklenir)
+                        Intent intent = new Intent(context, mybooks.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
                     });
         });
+
     }
 
     @Override

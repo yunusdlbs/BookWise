@@ -31,8 +31,13 @@ public class mybooks extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
         btnhome = findViewById(R.id.btnhome);
+
         adapter = new MyBooksPagerAdapter(this);
         viewPager.setAdapter(adapter);
+
+        // 🔥 Intent'ten gelen sekme pozisyonu
+        int selectedTab = getIntent().getIntExtra("selected_tab", 0); // default: Favoriler
+        viewPager.setCurrentItem(selectedTab, false); // false: animasyonsuz geçiş
 
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> tab.setText(position == 0 ? "Favoriler" : "Ödünç Aldıklarım")

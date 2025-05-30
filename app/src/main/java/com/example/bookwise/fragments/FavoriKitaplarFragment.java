@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ import java.util.List;
 public class FavoriKitaplarFragment extends Fragment {
 
     private RecyclerView recyclerView;
+    private TextView tvEmptyMessage;
     private FavoriteBooksAdapter adapter;
     private List<Book> favoriteList = new ArrayList<>();
     private FirebaseFirestore db;
@@ -39,13 +41,14 @@ public class FavoriKitaplarFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         recyclerView = view.findViewById(R.id.recyclerFavorites);
+        tvEmptyMessage = view.findViewById(R.id.tvEmptyMessage);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new FavoriteBooksAdapter(getContext(), favoriteList);
+        recyclerView.setAdapter(adapter);
 
         db = FirebaseFirestore.getInstance();
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        adapter = new FavoriteBooksAdapter(getContext(), favoriteList);
-        recyclerView.setAdapter(adapter);
 
         listenFavoritesRealtime();
     }
@@ -60,19 +63,24 @@ public class FavoriKitaplarFragment extends Fragment {
                         return;
                     }
 
-                    if (snapshots != null) {
-                        List<Book> updatedList = new ArrayList<>();
+                    if (snapshots != null && !snapshots.isEmpty()) {
+                        favoriteList.clear();
                         for (DocumentSnapshot doc : snapshots.getDocuments()) {
                             Book book = doc.toObject(Book.class);
-                            updatedList.add(book);
+                            favoriteList.add(book);
                         }
-
-                        favoriteList.clear();
-                        favoriteList.addAll(updatedList);
                         adapter.notifyDataSetChanged();
+                        tvEmptyMessage.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                    } else {
+                        favoriteList.clear();
+                        adapter.notifyDataSetChanged();
+                        tvEmptyMessage.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
                     }
                 });
     }
+
     @Override
     public void onResume() {
         super.onResume();

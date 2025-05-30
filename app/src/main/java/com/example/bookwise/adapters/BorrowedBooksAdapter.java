@@ -1,6 +1,7 @@
 package com.example.bookwise.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.bookwise.R;
 import com.example.bookwise.models.Book;
+import com.example.bookwise.mybooks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -94,8 +96,10 @@ public class BorrowedBooksAdapter extends RecyclerView.Adapter<BorrowedBooksAdap
                                 });
 
                         // 3️⃣ Adapter listesinden kaldır
-                        borrowedList.remove(holder.getAdapterPosition());
-                        notifyItemRemoved(holder.getAdapterPosition());
+                        Intent intent = new Intent(context, mybooks.class);
+                        intent.putExtra("selected_tab", 1);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
                     })
                     .addOnFailureListener(e ->
                             Toast.makeText(context, "İade işlemi başarısız", Toast.LENGTH_SHORT).show());
