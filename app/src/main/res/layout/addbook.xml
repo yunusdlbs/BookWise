@@ -12,28 +12,31 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <!-- Kitap Görsel URL -->
-        <EditText
-            android:id="@+id/etImageUrl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Kitap Görsel URL (ör: https://example.com/image.jpg)"
-            android:inputType="textUri"
-            android:background="@drawable/edittext_background"
-            android:padding="12dp"
-            android:layout_marginTop="68dp"
-            android:layout_marginBottom="12dp"/>
-
         <!-- Kitap Bilgileri -->
+
+        <ImageView
+            android:id="@+id/ivBookImage"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/edittext_background"
+            android:clickable="true"
+            android:contentDescription="Kitap görseli seç"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_add_photo" />
+
         <EditText
             android:id="@+id/etTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/edittext_background"
             android:hint="Kitap Adı"
             android:inputType="text"
-            android:background="@drawable/edittext_background"
-            android:padding="12dp"
-            android:layout_marginBottom="12dp"/>
+            android:padding="12dp" />
 
         <EditText
             android:id="@+id/etAuthor"
@@ -43,7 +46,7 @@
             android:inputType="text"
             android:background="@drawable/edittext_background"
             android:padding="12dp"
-            android:layout_marginBottom="12dp"/>
+            android:layout_marginBottom="10dp"/>
 
         <EditText
             android:id="@+id/etDescription"
@@ -55,7 +58,7 @@
             android:minLines="4"
             android:gravity="top"
             android:padding="12dp"
-            android:layout_marginBottom="12dp"/>
+            android:layout_marginBottom="10dp"/>
 
         <EditText
             android:id="@+id/etPageCount"
@@ -65,7 +68,7 @@
             android:inputType="number"
             android:background="@drawable/edittext_background"
             android:padding="12dp"
-            android:layout_marginBottom="12dp"/>
+            android:layout_marginBottom="10dp"/>
 
         <EditText
             android:id="@+id/etStock"
@@ -75,7 +78,7 @@
             android:inputType="number"
             android:background="@drawable/edittext_background"
             android:padding="12dp"
-            android:layout_marginBottom="12dp"/>
+            android:layout_marginBottom="10dp"/>
 
         <EditText
             android:id="@+id/etCategory"

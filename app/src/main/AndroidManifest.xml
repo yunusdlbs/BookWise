@@ -16,6 +16,12 @@
         tools:ignore="MissingClass"
         tools:targetApi="31">
         <activity
+            android:name=".profile"
+            android:exported="false" />
+        <activity
+            android:name=".mybooks"
+            android:exported="false" />
+        <activity
             android:name=".editbook"
             android:exported="false" />
         <activity
@@ -33,7 +39,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB-*************************" />
+            android:value="********************" />
 
         <activity
             android:name=".aboutus"

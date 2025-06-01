@@ -87,16 +87,22 @@ public class home extends AppCompatActivity {
             firestore.collection("Users").document(uid)
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
+                        String username = documentSnapshot.getString("username");
+                        if (username != null && !username.isEmpty()) {
+                            tvWelcome.setText("Hoşgeldin\n" + username);
+                        } else {
+                            tvWelcome.setText("Hoşgeldin\n" + email); // fallback
+                        }
                         if (documentSnapshot.exists()) {
                             Boolean isAdmin = documentSnapshot.getBoolean("isAdmin");
                             if (Boolean.TRUE.equals(isAdmin)) {
                                 // 🔥 Admin item'ını dinamik olarak ekle
-                                String username = documentSnapshot.getString("username");
-                                if (username != null && !username.isEmpty()) {
-                                    tvWelcome.setText("Welcome\n" + username);
-                                } else {
-                                    tvWelcome.setText("Welcome\n" + email); // fallback
-                                }
+//                                String username = documentSnapshot.getString("username");
+//                                if (username != null && !username.isEmpty()) {
+//                                    tvWelcome.setText("Welcome\n" + username);
+//                                } else {
+//                                    tvWelcome.setText("Welcome\n" + email); // fallback
+//                                }
                                 Menu menu = navigationView.getMenu();
                                 SubMenu adminSubMenu = menu.addSubMenu("Admin");
                                 adminSubMenu.setGroupCheckable(R.id.group_main, true, true);
@@ -125,10 +131,10 @@ public class home extends AppCompatActivity {
                                     drawerLayout.closeDrawers();
                                     return true;
                                 });
-                                if (menu.findItem(R.id.nav_admin) == null) {
-                                    menu.add(R.id.group_main, R.id.nav_admin, Menu.NONE, "Admin")
-                                            .setIcon(R.drawable.ic_admin_panel);
-                                }
+//                                if (menu.findItem(R.id.nav_admin) == null) {
+//                                    menu.add(R.id.group_main, R.id.nav_admin, Menu.NONE, "Admin")
+//                                            .setIcon(R.drawable.ic_admin_panel);
+//                                }
                             }
                         }
                     });
@@ -180,9 +186,12 @@ public class home extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if (id == R.id.nav_profile) {
-                    Toast.makeText(home.this, "Profil açılıyor...", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(home.this, "Profil açılıyor...", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_settings) {
-                    Toast.makeText(home.this, "Ayarlar geliyor...", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(home.this, "Ayarlar geliyor...", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.nav_books) {
+                    //Toast.makeText(home.this, "Kitaplarım...", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(home.this, mybooks.class));
                 } else if (id == R.id.nav_logout) {
                     FirebaseAuth.getInstance().signOut();
                     startActivity(new Intent(home.this, login.class));
@@ -206,38 +215,40 @@ public class home extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        db.collection("books").get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                        Book book = doc.toObject(Book.class);
-                        bookList.add(book);
-                    }
-                    adapter.notifyDataSetChanged();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Kitaplar yüklenemedi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+//        db.collection("books").get()
+//                .addOnSuccessListener(queryDocumentSnapshots -> {
+//                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
+//                        Book book = doc.toObject(Book.class);
+//                        bookList.add(book);
+//                    }
+//                    adapter.notifyDataSetChanged();
+//                })
+//                .addOnFailureListener(e -> {
+//                    Toast.makeText(this, "Kitaplar yüklenemedi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                });
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        loadBooks();
+        listenBooksRealtime();
     }
 
-    private void loadBooks() {
-        db.collection("books").get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
+    private void listenBooksRealtime() {
+        db.collection("books")
+                .addSnapshotListener((querySnapshot, error) -> {
+                    if (error != null) {
+                        Toast.makeText(this, "Kitaplar dinlenemedi!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     bookList.clear();
-                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                    for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
                         Book book = doc.toObject(Book.class);
                         bookList.add(book);
                     }
-                    adapter.notifyDataSetChanged();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Kitaplar yüklenemedi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    adapter.notifyDataSetChanged(); // 🔁 UI'ı yenile
                 });
     }
 

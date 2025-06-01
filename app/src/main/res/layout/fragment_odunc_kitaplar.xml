@@ -1,0 +1,22 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerBorrowed"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/tvEmptyBorrowed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hiç ödünç kitabınız yok."
+        android:gravity="center"
+        android:textColor="#FF9800"
+        android:textSize="18sp"
+        android:visibility="gone"
+        android:textStyle="bold"
+        android:layout_marginTop="64dp"/>
+
+</FrameLayout>
