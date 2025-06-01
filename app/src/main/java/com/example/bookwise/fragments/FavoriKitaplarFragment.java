@@ -59,7 +59,7 @@ public class FavoriKitaplarFragment extends Fragment {
                 .collection("Favorites")
                 .addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
-                        Toast.makeText(getContext(), "Favoriler yüklenemedi!", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "Favoriler yüklenemedi!", Toast.LENGTH_SHORT).show();
                         return;
                     }
 

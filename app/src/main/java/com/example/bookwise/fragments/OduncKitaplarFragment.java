@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ public class OduncKitaplarFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private BorrowedBooksAdapter adapter;
+    private TextView tvEmptyBorrowed;
     private List<Book> bookList = new ArrayList<>();
 
     public OduncKitaplarFragment() {}
@@ -43,6 +45,7 @@ public class OduncKitaplarFragment extends Fragment {
 
         adapter = new BorrowedBooksAdapter(getContext(), bookList);
         recyclerView.setAdapter(adapter);
+        tvEmptyBorrowed = view.findViewById(R.id.tvEmptyBorrowed);
 
         //loadBorrowedBooks(); // burada çağır
     }
@@ -55,7 +58,7 @@ public class OduncKitaplarFragment extends Fragment {
                 .collection("Borrowed")
                 .addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
-                        Toast.makeText(getContext(), "Ödünç kitaplar alınamadı!", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "Ödünç kitaplar alınamadı!", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -71,9 +74,16 @@ public class OduncKitaplarFragment extends Fragment {
 
                             bookList.add(book);
                         }
-
+                        if (bookList.isEmpty()) {
+                            recyclerView.setVisibility(View.GONE);
+                            tvEmptyBorrowed.setVisibility(View.VISIBLE);
+                        } else {
+                            recyclerView.setVisibility(View.VISIBLE);
+                            tvEmptyBorrowed.setVisibility(View.GONE);
+                        }
                         adapter.notifyDataSetChanged();
                     }
+
                 });
     }
 
