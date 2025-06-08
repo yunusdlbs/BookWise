@@ -28,7 +28,7 @@ public class aboutus extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
 
         // Kastamonu Üniversitesi koordinatları
-        LatLng kastamonuUniv = new LatLng(41.3887, 33.7827);
+        LatLng kastamonuUniv = new LatLng(41.43826838059944, 33.76345923361683);
 
         mMap.addMarker(new MarkerOptions().position(kastamonuUniv).title("Kastamonu Üniversitesi"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kastamonuUniv, 15));

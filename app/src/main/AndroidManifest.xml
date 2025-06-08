@@ -33,9 +33,6 @@
         <activity
             android:name=".edituser"
             android:exported="false" />
-        <activity
-            android:name=".admin"
-            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

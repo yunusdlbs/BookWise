@@ -1,0 +1,10 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- %100 opak turuncu -->
+    <solid android:color="#F38321" />
+
+    <!-- Köşeleri yumuşat -->
+    <corners android:radius="24dp" />
+
+</shape>

@@ -14,9 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="141dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="100dp"
-        android:text="This is Just About Us. "
+        android:text="--->   BookWise tamamen kitap okuma alışkanlığını ve toplumsal gelişimi hedef alan bir kuruluşdur.\n\n --->  Sizlerde kitap bağışlarınızla bizlere destek olabilirsiniz.\n"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -28,7 +28,7 @@
         android:layout_height="279dp"
         android:layout_alignParentEnd="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="154dp"
+        android:layout_marginTop="214dp"
         android:layout_marginEnd="12dp"
         android:layout_marginStart="12dp"
         tools:ignore="MissingClass" />
@@ -39,9 +39,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="147dp"
-        android:layout_marginTop="485dp"
-        android:text="This is Just About Us. "
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="515dp"
+        android:text="ADRES: \n\n Kuzeykent, Orgeneral Atilla Ateş Paşa Cd. No:46, 37150 Kastamonu, Merkez"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         android:textStyle="bold" />

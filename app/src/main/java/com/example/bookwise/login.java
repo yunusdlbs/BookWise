@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,11 +20,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class login extends AppCompatActivity {
 
     private EditText etEmail, etPassword;
+    private ImageView imageView;
     private Button btnLogin, btnRegister, btnforgetpassword;
     private FirebaseAuth mAuth;
 
@@ -42,7 +47,15 @@ public class login extends AppCompatActivity {
         Button btnAboutUs = findViewById(R.id.aboutus);
         Button forgetpassword = findViewById(R.id.btnforgetpassword);
         TextView tvCountdown = findViewById(R.id.tvCountdown);
+        ImageView imageView = findViewById(R.id.myImageView);
 
+
+        Glide.with(this)
+                .load(R.drawable.logolibrary) // 📌 senin görselin burada
+                .apply(new RequestOptions()
+                        .transform(new RoundedCorners(40))  // köşeleri ovalleştir
+                        .placeholder(R.drawable.ic_add_photo)) // isteğe bağlı
+                .into(imageView);
 
         forgetpassword.setOnClickListener(v -> showResetPasswordDialog());
 

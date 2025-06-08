@@ -62,11 +62,10 @@
     <EditText
         android:id="@+id/editTextTextPassword"
         android:inputType="textPassword"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="278dp"
+        android:layout_marginTop="298dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="12dp"
         android:layout_marginStart="30dp"
@@ -79,7 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="218dp"
+        android:layout_marginTop="238dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="12dp"
         android:layout_marginStart="30dp"
@@ -127,5 +126,19 @@
         android:text="@BookWise, tüm hakları saklıdır."
         android:textColor="#FBFBFB"
         android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/myImageView"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="140dp"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/rounded_image_background"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logolibrary" />
 
 </RelativeLayout>

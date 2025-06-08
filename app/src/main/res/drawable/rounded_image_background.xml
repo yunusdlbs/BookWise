@@ -1,0 +1,15 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Arka plan rengi: %80 opak beyaz (hex karşılığı: CCFFFFFF) -->
+    <solid android:color="#CCFFFFFF" />
+
+    <!-- Oval kenarlar -->
+    <corners android:radius="16dp" />
+
+
+    <!-- İsteğe bağlı border -->
+    <stroke
+        android:width="2dp"
+        android:color="#DDDDDD" />
+</shape>

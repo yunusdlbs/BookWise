@@ -3,16 +3,20 @@
     android:layout_height="160dp"
     android:orientation="vertical"
     android:gravity="bottom"
+    android:layout_marginTop="50dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
     android:padding="16dp"
-    android:background="#F38321"> <!-- Mavi arkaplan -->
+    android:background="@drawable/nav_header_background">
 
     <TextView
         android:id="@+id/tvWelcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="128dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="100dp"
         android:text="Hoşgeldin"
         android:textColor="#050505"
-        android:textStyle="bold"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
 </LinearLayout>

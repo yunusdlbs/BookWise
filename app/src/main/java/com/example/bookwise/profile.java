@@ -74,7 +74,7 @@ public class profile extends AppCompatActivity {
 
         btnHome.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(this, login.class));
+            startActivity(new Intent(this, home.class));
             finish();
         });
     }
