@@ -187,6 +187,8 @@ public class home extends AppCompatActivity {
 
                 if (id == R.id.nav_profile) {
                     //Toast.makeText(home.this, "Profil açılıyor...", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(home.this, profile.class));
+                    finish();
                 } else if (id == R.id.nav_settings) {
                     //Toast.makeText(home.this, "Ayarlar geliyor...", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_books) {

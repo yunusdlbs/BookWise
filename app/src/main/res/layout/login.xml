@@ -116,4 +116,16 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/allrights"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="125dp"
+        android:layout_marginTop="740dp"
+        android:text="@BookWise, tüm hakları saklıdır."
+        android:textColor="#FBFBFB"
+        android:textSize="12sp" />
+
 </RelativeLayout>
