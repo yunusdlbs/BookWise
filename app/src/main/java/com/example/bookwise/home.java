@@ -190,7 +190,7 @@ public class home extends AppCompatActivity {
                     startActivity(new Intent(home.this, profile.class));
                     finish();
                 } else if (id == R.id.nav_settings) {
-                    //Toast.makeText(home.this, "Ayarlar geliyor...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(home.this, "Geliştirme devam ediyor...", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_books) {
                     //Toast.makeText(home.this, "Kitaplarım...", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(home.this, mybooks.class));

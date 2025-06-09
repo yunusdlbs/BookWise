@@ -16,22 +16,28 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="30dp"
         android:layout_marginTop="100dp"
-        android:text="--->   BookWise tamamen kitap okuma alışkanlığını ve toplumsal gelişimi hedef alan bir kuruluşdur.\n\n --->  Sizlerde kitap bağışlarınızla bizlere destek olabilirsiniz.\n"
+        android:text="--->   BookWise tamamen kitap okuma alışkanlığını ve toplumsal gelişimi hedef alan bir kuruluşdur.\n\n --->  Sizlerde kitap bağışlarınızla bizlere destek olabilirsiniz.\n\n"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         android:textStyle="bold" />
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <FrameLayout
         android:layout_width="385dp"
         android:layout_height="279dp"
-        android:layout_alignParentEnd="true"
         android:layout_gravity="center_horizontal"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="214dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginStart="12dp"
-        tools:ignore="MissingClass" />
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/oval_background"
+        android:clipToOutline="true">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="MissingClass" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/kullanıcıadı2"
@@ -44,6 +50,34 @@
         android:text="ADRES: \n\n Kuzeykent, Orgeneral Atilla Ateş Paşa Cd. No:46, 37150 Kastamonu, Merkez"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnDonate"
+        android:layout_width="389dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="598dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="#8BC34A"
+        android:text="BAĞIŞ YAP"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnHome"
+        android:layout_width="391dp"
+        android:layout_height="61dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="658dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="#2196F3"
+        android:text="ANA SAYFA"
+        android:textColor="@android:color/white"
         android:textStyle="bold" />
 
 </RelativeLayout>
